@@ -25,7 +25,7 @@ export const seedInitialProducts = async () => {
         title: "HP Laptop",
         image:
           "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.47JSJdIG_QES4vVE4xSKCQHaHa%26pid%3DApi&f=1&ipt=5e4556acd3974b2fa921c96e94ac2b97a4767ae507099d349f75b53b518e1fea&ipo=images",
-        price: 1,
+        price: 1000,
         stock: 630,
       },
       /*   { title: "Product 4", image: "image4.jpg", price: 30, stock: 205 },
