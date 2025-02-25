@@ -4,9 +4,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useCart } from '../context/Auth/Cart/CartContext';
 
 interface Props {
-  _id: number;
+  _id: string;
   title: string;
   image: string;
   price: number;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export default function ProductCard({_id, title, image, price, stock}: Props) {
+  const { addToCart } = useCart();
+
   return (
     <Card>
       <CardMedia
@@ -30,7 +33,7 @@ export default function ProductCard({_id, title, image, price, stock}: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant='contained' size="small">Add to Cart</Button>
+        <Button variant='contained' size="small" onClick={() => addToCart(_id)}>Add to Cart</Button>
       </CardActions>
     </Card>
   );
