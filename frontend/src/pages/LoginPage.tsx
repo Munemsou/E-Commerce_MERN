@@ -88,7 +88,7 @@ const LoginPage = () => {
             type="password"
           />
           <Button onClick={onSubmit} variant="contained">
-            Register
+            Login
           </Button>
           {err && (
             <Typography sx={{ color: "error", textAlign: "center" }}>
