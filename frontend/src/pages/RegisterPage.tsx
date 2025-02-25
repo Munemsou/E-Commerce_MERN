@@ -5,40 +5,60 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
 import { BASE_URL } from "../constants/baseUrl";
+import { useAuth } from "../context/Auth/AuthContext";
 
 const RegisterPage = () => {
-    const [err, setErr] = useState("");
+  const [err, setErr] = useState("");
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const { login } = useAuth();
+
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
-    const lastName= lastNameRef.current?.value;
+    const lastName = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     console.log(firstName, lastName, email, password);
+
+    if (!firstName || !lastName || !email || !password) {
+      setErr("Please fill all the fields");
+      return;
+    }
 
     // Make the call to API to register the user
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        },
-      body: JSON.stringify({ 
-        firstName, lastName, email, password,
-     }),
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
     });
 
-    if(!response.ok) {
+    if (!response.ok) {
       console.log("Error in registering user");
       setErr("Unable to register user");
-        return;
+      return;
     }
-    const data = await response.json();
-    console.log(data);
-};
+    const token = await response.json();
+
+    if (!token) {
+      setErr("Incorrect token");
+      return;
+    }
+
+    login(email, token);
+
+    console.log(token);
+  };
 
   return (
     <Container>
@@ -63,12 +83,27 @@ const RegisterPage = () => {
             p: 2,
           }}
         >
-          <TextField inputRef={firstNameRef} label="First Name" name="firstName" />
+          <TextField
+            inputRef={firstNameRef}
+            label="First Name"
+            name="firstName"
+          />
           <TextField inputRef={lastNameRef} label="Last Name" name="lastName" />
           <TextField inputRef={emailRef} label="Email" name="email" />
-          <TextField inputRef={passwordRef} label="Password" name="password" type="password" />
-          <Button onClick={onSubmit} variant="contained">Register</Button>
-            {err && <Typography sx={{color:"error", textAlign:"center" }} >{err}</Typography>}
+          <TextField
+            inputRef={passwordRef}
+            label="Password"
+            name="password"
+            type="password"
+          />
+          <Button onClick={onSubmit} variant="contained">
+            Register
+          </Button>
+          {err && (
+            <Typography sx={{ color: "error", textAlign: "center" }}>
+              {err}
+            </Typography>
+          )}
         </Box>
       </Box>
     </Container>
