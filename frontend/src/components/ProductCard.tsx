@@ -13,7 +13,7 @@ interface Props {
   stock: number;
 }
 
-export default function ProductCard({id, title, image, price, stock}: Props) {
+export default function ProductCard({_id, title, image, price, stock}: Props) {
   return (
     <Card>
       <CardMedia
