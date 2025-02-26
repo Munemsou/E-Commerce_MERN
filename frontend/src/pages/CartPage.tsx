@@ -5,7 +5,20 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
 const CartPage = () => {
-  const { cartItems, totalAmount } = useCart();
+  const { cartItems, totalAmount, updateItemInCart, removeItemFromCart } = useCart();
+
+  const handleQuantity = (productId: string, quantity: number) => {
+    if(quantity <= 0) {
+      return;
+    }
+    updateItemInCart(productId, quantity);
+  };
+
+  const handleRemoveButton = (productId: string) => {
+    console.log("remove item", productId);
+    
+    removeItemFromCart(productId);
+  };
 
   return (
     <Container sx={{ mt: 2 }}>
@@ -25,22 +38,22 @@ const CartPage = () => {
             <Typography>
               {item.quantity} x {item.unitPrice} €
             </Typography>
-            <Button>Remove Item</Button>
+            <Button onClick={() => handleRemoveButton(item.productId)}>Remove Item</Button>
             </Box>
           </Box>
           <ButtonGroup>
-            <Button variant="contained" color="primary">
+            <Button onClick={() => handleQuantity(item.productId, item.quantity + 1)} variant="contained" color="primary">
               +
             </Button>
-            <Button variant="contained" color="secondary">
+            <Button onClick={() => handleQuantity(item.productId, item.quantity - 1)} variant="contained" color="secondary">
               -
             </Button>
           </ButtonGroup>
         </Box>
       ))}
-      <Box mt={2}>
+      <Box m={2}>
         <Typography variant="h4">Total: {totalAmount.toFixed(2)} €</Typography>
-        <Button variant="contained" color="primary">
+        <Button sx={{mt: .5}} variant="contained" color="primary">
           Checkout
         </Button>
       </Box>
