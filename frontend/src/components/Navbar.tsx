@@ -15,9 +15,11 @@ import { useAuth } from "../context/Auth/AuthContext";
 import Grid2 from "@mui/material/Grid2";
 import { Badge, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/Auth/Cart/CartContext";
 
 function Navbar() {
   const { username, isAuthenticated, logout } = useAuth();
+  const { cartItems } = useCart();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -61,31 +63,37 @@ function Navbar() {
               alignItems: "center",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <AdbIcon sx={{ display: "flex", mr: 1 }} />
-              <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="#app-bar-with-responsive-menu"
-                sx={{
-                  mr: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
-                  fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                Tech Hub
-              </Typography>
-            </Box>
+            <Button
+              variant="text"
+              sx={{ color: "#fff" }}
+              onClick={() => navigate("/")}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <AdbIcon sx={{ display: "flex", mr: 1 }} />
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="a"
+                  href="#app-bar-with-responsive-menu"
+                  sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".3rem",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Tech Hub
+                </Typography>
+              </Box>
+            </Button>
 
             <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
               <IconButton aria-label="cart" onClick={handleCart}>
-                <Badge badgeContent={4} color="secondary">
-                  <ShoppingCart sx={{ color: '#fff' }} />
+                <Badge badgeContent={cartItems.length} color="secondary">
+                  <ShoppingCart sx={{ color: "#fff" }} />
                 </Badge>
               </IconButton>
               {isAuthenticated ? (
