@@ -8,7 +8,7 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
   const { token } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [err, setErr] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -26,7 +26,7 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 
       if (!response.ok) {
         console.log("Error in fetching cart");
-        setErr("Unable to fetch cart");
+        setError("Unable to fetch cart");
         return;
       }
       const cart = await response.json();
@@ -70,13 +70,13 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (!response.ok) {
-        setErr("Unable to add to cart");
+        setError("Unable to add to cart");
       }
 
       const cart = await response.json();
 
       if (!cart) {
-        setErr("Failed to parse cart data");
+        setError("Failed to parse cart data");
       }
 
       const cartItemsMapped = cart.items.map(
@@ -110,13 +110,13 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (!response.ok) {
-        setErr("Unable to update cart");
+        setError("Unable to update cart");
       }
 
       const cart = await response.json();
 
       if (!cart) {
-        setErr("Failed to parse cart data");
+        setError("Failed to parse cart data");
       }
 
       const cartItemsMapped = cart.items.map(
@@ -146,13 +146,13 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (!response.ok) {
-        setErr("Unable to remove from cart");
+        setError("Unable to remove from cart");
       }
 
       const cart = await response.json();
 
       if (!cart) {
-        setErr("Failed to parse cart data");
+        setError("Failed to parse cart data");
       }
 
       const cartItemsMapped = cart.items.map(
@@ -182,13 +182,13 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       });
 
       if (!response.ok) {
-        setErr("Unable to empty cart");
+        setError("Unable to empty cart");
       }
 
       const cart = await response.json();
 
       if (!cart) {
-        setErr("Failed to parse cart data");
+        setError("Failed to parse cart data");
       }
 
       setCartItems([]);

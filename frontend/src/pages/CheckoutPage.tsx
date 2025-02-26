@@ -3,11 +3,41 @@ import Container from "@mui/material/Container";
 import { useCart } from "../context/Auth/Cart/CartContext";
 import Button from "@mui/material/Button";
 import { useRef } from "react";
+import { BASE_URL } from "../constants/baseUrl";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const { cartItems, totalAmount } = useCart();
 
   const addressRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+
+  const handleConfirmOrder = async () => {
+    const address = addressRef.current?.value;
+    if (!address) {
+      return;
+    }
+    console.log("confirm order", address);
+
+    const response = await fetch(`${BASE_URL}/cart/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ address }),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      console.log("Order confirmed");
+    }
+    else {
+      console.log("Error in confirming order");
+    }
+    navigate("/order-success");
+  };
 
   const renderCartItems = () => (
     <Box
@@ -72,10 +102,16 @@ const CheckoutPage = () => {
         variant="outlined"
         fullWidth
         sx={{ mt: 2 }}
-        />
+      />
 
       {renderCartItems()}
-      <Button sx={{ mt: 2 }} fullWidth variant="contained" color="primary">
+      <Button
+        sx={{ mt: 2 }}
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={handleConfirmOrder}
+      >
         Pay Now
       </Button>
     </Container>
