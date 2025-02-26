@@ -1,5 +1,7 @@
 import express, { response } from "express";
-import { login, register } from "../services/userService";
+import { getMyOrders, login, register } from "../services/userService";
+import validateJWT from "../middlewares/validateJWT";
+import { ExtendedRequest } from "../types/extendedRequest";
 
 const router = express.Router();
 
@@ -29,5 +31,20 @@ router.post("/login", async (requst, response) => {
     response.status(500).send("Internal Server Error");
   }
 });
+
+router.get(
+  "/my-orders",
+  validateJWT,
+  async (request: ExtendedRequest, response) => {
+    try {
+      const userId = request?.user?._id;
+      const { statusCode, data } = await getMyOrders({ userId });
+      response.status(statusCode).send(data);
+    } catch (error) {
+      console.log(error);
+      response.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 export default router;
