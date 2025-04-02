@@ -11,10 +11,10 @@ interface Props {
   title: string;
   image: string;
   price: number;
-  stock: number;
+  
 }
 
-export default function ProductCard({_id, title, image, price, stock}: Props) {
+export default function ProductCard({_id, title, image, price}: Props) {
   const { addToCart } = useCart();
 
   return (

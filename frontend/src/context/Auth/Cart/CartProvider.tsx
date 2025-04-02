@@ -8,7 +8,7 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
   const { token } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
 
   useEffect(() => {
     if (!token) {
