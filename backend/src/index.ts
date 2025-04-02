@@ -18,8 +18,12 @@ app.use(cors());
 console.log(process.env.DATABASE_URL);
 
 
+const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
+
+const URI = `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+console.log(URI);
 mongoose
-  .connect(process.env.DATABASE_URL ||"")
+  .connect(process.env.DATABASE_URL || URI)
   .then(() => console.log("Mongo connected!"))
   .catch((err) => console.log("Failed to connect!", err));
 
