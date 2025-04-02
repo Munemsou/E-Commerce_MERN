@@ -7,6 +7,8 @@ import { useRef, useState } from "react";
 import { BASE_URL } from "../constants/baseUrl";
 import { useAuth } from "../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Link from '@mui/material/Link';
+
 
 const LoginPage = () => {
   const [err, setErr] = useState("");
@@ -90,6 +92,19 @@ const LoginPage = () => {
           <Button onClick={onSubmit} variant="contained">
             Login
           </Button>
+          <Typography variant="body2">
+            Don't have an account?{" "}
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Create one
+            </Link>{" "}
+          </Typography>
+
           {err && (
             <Typography sx={{ color: "error", textAlign: "center" }}>
               {err}
