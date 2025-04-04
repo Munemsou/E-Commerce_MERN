@@ -52,7 +52,9 @@ const RegisterPage = () => {
       });
 
       if (!response.ok) {
-        console.log("Error in registering user");
+        console.log("Error in registering user:", response.statusText);
+        const errorData = await response.json();
+        console.log("Error details:", errorData);
         setErr("Unable to register user");
         return;
       }

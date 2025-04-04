@@ -43,7 +43,10 @@ mongoose
   })
   .catch((err) => console.log("Failed to connect!", err));
 
-app.use("/user", userRoute);
+app.use("/user", (req, res, next) => {
+  console.log("Request Body:", req.body);
+  next();
+}, userRoute);
 app.use("/product", productRoute);
 app.use("/cart", cartRoute);
 
