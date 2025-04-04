@@ -13,7 +13,18 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = ['https://e-commerce-mern-lake.vercel.app', 'http://localhost:3000'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
 
