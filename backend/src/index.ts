@@ -26,14 +26,14 @@ app.use(cors({
   }
 }));
 
-const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
+const { DATABASE_URL, DATABASE_URL_PRODUCTION } = process.env;
 
-if (!DB_USER || !DB_PASS || !DB_HOST || !DB_NAME) {
+if (!DATABASE_URL || !DATABASE_URL_PRODUCTION) {
   console.error("Missing required database environment variables.");
   process.exit(1);
 }
 
-const URI = `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+const URI = `mongodb+srv://${DATABASE_URL_PRODUCTION}?retryWrites=true&w=majority`;
 
 mongoose
   .connect(URI)
