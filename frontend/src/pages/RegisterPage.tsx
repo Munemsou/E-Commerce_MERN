@@ -4,9 +4,10 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
-import { BASE_URL } from "../constants/baseUrl";
+// import { BASE_URL } from "../constants/baseUrl";
 import { useAuth } from "../context/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL, BASE_URL_PRODUCTION } from "../constants/baseUrl";
 
 const RegisterPage = () => {
   const [err, setErr] = useState("");
@@ -18,6 +19,9 @@ const RegisterPage = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+
+
+
 
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
@@ -32,8 +36,20 @@ const RegisterPage = () => {
       return;
     }
 
+
+    const requestBody = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+
+    console.log("Request Payload:", requestBody);
+
+    const url = process.env.NODE_ENV === "production" ? BASE_URL_PRODUCTION : BASE_URL;
+
     // Make the call to API to register the user
-    const response = await fetch(`${BASE_URL}/user/register`, {
+    const response = await fetch(`${url}/user/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

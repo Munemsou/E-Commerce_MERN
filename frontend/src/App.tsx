@@ -10,27 +10,30 @@ import CartProvider from "./context/Auth/Cart/CartProvider";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
+import ErrorBoundary from "./components/ErrorBoundray";
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/order-success" element={<OrderSuccessPage />} />
-              <Route path="/my-orders" element={<MyOrdersPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </CartProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order-success" element={<OrderSuccessPage />} />
+                <Route path="/my-orders" element={<MyOrdersPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
