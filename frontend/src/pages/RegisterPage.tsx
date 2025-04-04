@@ -17,6 +17,7 @@ const RegisterPage = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
@@ -25,7 +26,6 @@ const RegisterPage = () => {
     const password = passwordRef.current?.value;
     // console.log(firstName, lastName, email, password);
 
-    const navigate = useNavigate();
 
     if (!firstName || !lastName || !email || !password) {
       setErr("Please fill all the fields");
