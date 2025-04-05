@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import { Product } from "../types/Product";
 import { BASE_URL, BASE_URL_PRODUCTION } from "../constants/baseUrl";
-import CircularWithValueLabel from "../components/CircularProgress";
+import CircularIndeterminate from "../components/CircularProgress";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -54,7 +54,7 @@ const HomePage = () => {
           minHeight: "100vh",
         }}
       >
-        <CircularWithValueLabel />
+        <CircularIndeterminate />
       </Box>
     );
   }

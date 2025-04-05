@@ -14,26 +14,31 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
-const allowedOrigins = ['https://e-commerce-mern-lake.vercel.app', 'http://localhost:3000'];
+const allowedOrigins = [
+  'https://e-commerce-mern-lake.vercel.app',
+  'http://localhost:5173'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    console.log('Origin:', origin); // Debugging log
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error('Not allowed by CORS:', origin); // Debugging log
       callback(new Error('Not allowed by CORS'));
     }
   }
 }));
 
-const { DATABASE_URL, DATABASE_URL_PRODUCTION } = process.env;
+const { DATABASE_URL, DATABASE_URL_PRODUCTION, NODE_ENV } = process.env;
 
 if (!DATABASE_URL || !DATABASE_URL_PRODUCTION) {
   console.error("Missing required database environment variables.");
   process.exit(1);
 }
 
-const URI = `mongodb+srv://${DATABASE_URL_PRODUCTION}?retryWrites=true&w=majority`;
+const URI = NODE_ENV === 'production' ? DATABASE_URL_PRODUCTION : DATABASE_URL;
 
 mongoose
   .connect(URI)
