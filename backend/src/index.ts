@@ -38,7 +38,7 @@ if (!DATABASE_URL || !DATABASE_URL_PRODUCTION) {
   process.exit(1);
 }
 
-const URI = NODE_ENV === 'production' ? DATABASE_URL_PRODUCTION : DATABASE_URL;
+const URI = NODE_ENV === 'production' ? `mongodb+srv://${DATABASE_URL_PRODUCTION}?retryWrites=true&w=majority` : DATABASE_URL;
 
 mongoose
   .connect(URI)
